@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<dl>
+  <dt><%= t('attributes.name') %></dt>
+  <dd><%= @member.name %></dd>
+  <dt><%= t('attributes.name_kana') %></dt>
+  <dd><%= @member.name_kana %></dd>
+  <dt><%= t('attributes.sex') %></dt>
+  <dd><%= @member.sex_label %></dd>
+  <dt><%= t('attributes.birthday') %></dt>
+  <dd><%= @member.birthday %></dd>
+  <dt><%= t('attributes.age') %></dt>
+  <dd><%= @member.age %></dd>
+  <dt><%= t('attributes.prefecture_id') %></dt>
+  <dd><%= @member.prefecture.name %></dd>
+  <dt><%= t('attributes.comment') %></dt>
+  <dd><%= simple_format(@member.comment) %></dd>
+</dl>
+
+<%= link_to t('phrases.actions.update'), edit_member_path(@member) %> |
+<%= link_to t('phrases.actions.back'), members_path %>

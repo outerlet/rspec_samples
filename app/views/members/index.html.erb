@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= i18n_connector('phrases.models.member', 'phrases.actions.index') %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('attributes.name') %></th>
+      <th><%= t('attributes.name_kana') %></th>
+      <th><%= t('attributes.sex') %></th>
+      <th><%= t('attributes.birthday') %></th>
+      <th><%= t('attributes.prefecture_id') %></th>
+      <th><%= t('attributes.comment') %></th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @members.each do |member| %>
+      <tr>
+        <td><%= member.name %></td>
+        <td><%= member.name_kana %></td>
+        <td><%= member.sex_label %></td>
+        <td><%= member.birthday %></td>
+        <td><%= member.prefecture.name %></td>
+        <td><%= simple_format(member.comment) %></td>
+        <td><%= link_to t('phrases.actions.show'), member %></td>
+        <td><%= link_to t('phrases.actions.update'), edit_member_path(member) %></td>
+        <td><%= link_to t('phrases.actions.destroy'), member, method: :delete, data: { confirm: t('messages.confirm_destroy') } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to t('phrases.actions.new'), new_member_path %>

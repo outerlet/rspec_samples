@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<dl>
+  <dt><%= t('attributes.title') %></dt>
+  <dd><%= @book.title %></dd>
+  <dt><%= t('attributes.title_kana') %></dt>
+  <dd><%= @book.title_kana %></dd>
+  <dt><%= t('attributes.author') %></dt>
+  <dd><%= @book.author %></dd>
+  <dt><%= t('attributes.format') %></dt>
+  <dd><%= @book.format %></dd>
+  <dt><%= t('attributes.price') %></dt>
+  <dd><%= @book.price %></dd>
+  <dt><%= t('attributes.publisher') %></dt>
+  <dd><%= @book.publisher %></dd>
+  <dt><%= t('attributes.published') %></dt>
+  <dd><%= @book.published %></dd>
+  <dt><%= t('attributes.summary') %></dt>
+  <dd><%= simple_format(@book.summary) %></dd>
+</dl>
+
+<%= link_to t('phrases.actions.update'), edit_book_path(@book) %> |
+<%= link_to t('phrases.actions.back'), books_path %>

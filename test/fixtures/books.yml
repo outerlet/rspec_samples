@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  title_kana: MyString
+  format: 1
+  price: 1
+  published: 2019-03-04
+  summary: MyText
+
+two:
+  title: MyString
+  title_kana: MyString
+  format: 1
+  price: 1
+  published: 2019-03-04
+  summary: MyText

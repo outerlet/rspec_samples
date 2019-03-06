@@ -1,0 +1,59 @@
+ja:
+  phrases:
+    models:
+      member: '会員'
+      book: '書籍'
+    actions:
+      show: '詳細'
+      index: '一覧'
+      new: '新規登録'
+      create: '登録'
+      update: '更新'
+      destroy: '削除'
+      back: '戻る'
+  attributes:
+    name: '名前'
+    name_kana: '名前（カナ）'
+    sex: '性別'
+    age: '年齢'
+    birthday: '生年月日'
+    prefecture_id: '都道府県'
+    comment: 'コメント'
+    title: 'タイトル'
+    title_kana: 'タイトル（カナ）'
+    author: '著者'
+    format: 'フォーマット'
+    price: '価格'
+    publisher: '出版社'
+    published: '出版年月'
+    summary: '概要'
+  helpers:
+    submit:
+      create: '登録'
+      update: '更新'
+      destroy: '削除'
+  labels:
+    book:
+      format:
+        pocket: '文庫'
+        paperback: '新書'
+        hardcover: 'ハードカバー'
+        comics: '漫画'
+    member:
+      sex:
+        male: '男性'
+        female: '女性'
+  messages:
+    confirm_destroy: '本当に削除しますか？'
+    created: '%{model}は正常に登録されました。'
+    updated: '%{model}は正常に更新されました。'
+    destroyed: '%{model}は正常に削除されました。'
+  errors:
+    format: ! '%{attribute}%{message}'
+    messages:
+      blank: 'を入力してください。'
+      too_long: 'は%{count}文字以内で入力してください。'
+      inclusion: 'には有効な値を入力してください。'
+      greater_than_or_equal_to: 'には%{count}以上の値を入力してください。'
+      not_an_integer: 'には整数を入力してください。'
+      invalid_value: 'の値が正しくありません。'
