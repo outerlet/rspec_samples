@@ -8,3 +8,10 @@
 ].each do |pref_name|
   Prefecture.create!(name: pref_name)
 end
+
+# books
+FactoryBot.create_list(:book, 10)
+
+# members
+FactoryBot.create_list(:member, 5, :sex_male)
+FactoryBot.create_list(:member, 5, :sex_female)

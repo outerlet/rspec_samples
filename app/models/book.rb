@@ -25,6 +25,8 @@ class Book < ApplicationRecord
   validates :publisher,
     presence: true,
     length: { maximum: 60 }
+  validates :published,
+    presence: true
   validates :summary,
     presence: false,
     length: { maximum: 100 }
