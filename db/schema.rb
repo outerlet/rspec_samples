@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_03_05_112622) do
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["title", "author", "format", "publisher"], name: "index_books_on_title_and_author_and_format_and_publisher", unique: true
   end
 
   create_table "members", force: :cascade do |t|
@@ -37,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_03_05_112622) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "sex", "birthday"], name: "index_members_on_name_and_sex_and_birthday", unique: true
   end
 
   create_table "prefectures", force: :cascade do |t|

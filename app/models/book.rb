@@ -1,14 +1,15 @@
 class Book < ApplicationRecord
   const :FORMAT do
-    POCKET    1
-    PAPERBACK 2
-    HARDCOVER 3
-    COMICS    4
+    POCKET    1   # 文庫
+    PAPERBACK 2   # 新書
+    HARDCOVER 3   # ハードカバー
+    COMICS    4   # コミック
   end
 
   validates :title,
     presence: true,
-    length: { maximum: 60 }
+    length: { maximum: 60 },
+    duplication: { scope: %i(author format publisher) }
   validates :title_kana,
     presence: true,
     length: { maximum: 60 }

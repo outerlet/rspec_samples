@@ -10,5 +10,7 @@ class CreateMembers < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    add_index :members, %i(name sex birthday), unique: true
   end
 end

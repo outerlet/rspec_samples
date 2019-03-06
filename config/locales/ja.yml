@@ -1,16 +1,8 @@
 ja:
-  phrases:
+  activerecord:
     models:
       member: '会員'
       book: '書籍'
-    actions:
-      show: '詳細'
-      index: '一覧'
-      new: '新規登録'
-      create: '登録'
-      update: '更新'
-      destroy: '削除'
-      back: '戻る'
   attributes:
     name: '名前'
     name_kana: '名前（カナ）'
@@ -43,11 +35,6 @@ ja:
       sex:
         male: '男性'
         female: '女性'
-  messages:
-    confirm_destroy: '本当に削除しますか？'
-    created: '%{model}は正常に登録されました。'
-    updated: '%{model}は正常に更新されました。'
-    destroyed: '%{model}は正常に削除されました。'
   errors:
     format: ! '%{attribute}%{message}'
     messages:
@@ -56,4 +43,19 @@ ja:
       inclusion: 'には有効な値を入力してください。'
       greater_than_or_equal_to: 'には%{count}以上の値を入力してください。'
       not_an_integer: 'には整数を入力してください。'
-      invalid_value: 'の値が正しくありません。'
+      invalid: 'が正しくありません。'
+      duplicated: 'と%{duplicated_names}の組み合わせは一意でなくてはなりません。'
+  phrases:
+    actions:
+      show: '詳細'
+      index: '一覧'
+      new: '新規登録'
+      create: '登録'
+      update: '更新'
+      destroy: '削除'
+      back: '戻る'
+  messages:
+    confirm_destroy: '本当に削除しますか？'
+    created: '%{model}は正常に登録されました。'
+    updated: '%{model}は正常に更新されました。'
+    destroyed: '%{model}は正常に削除されました。'

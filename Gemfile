@@ -42,6 +42,10 @@ group :development, :test do
 
   # pry
   gem 'pry-rails'
+
+  # rspec, factory_bot
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
