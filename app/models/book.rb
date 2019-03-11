@@ -6,6 +6,7 @@ class Book < ApplicationRecord
     COMICS    4   # コミック
   end
 
+  # 一意性の検証には独自クラスを使用
   validates :title,
     presence: true,
     length: { maximum: 60 },

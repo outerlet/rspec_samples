@@ -32,3 +32,6 @@
 
 # Ignore bundler install directory
 /vendor
+
+# Ignore macOS system file
+.DS_Store

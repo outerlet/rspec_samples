@@ -44,6 +44,7 @@ ja:
       greater_than_or_equal_to: 'には%{count}以上の値を入力してください。'
       not_an_integer: 'には整数を入力してください。'
       invalid: 'が正しくありません。'
+      taken: 'と%{attribute_names}の組み合わせは既に存在しています。'
       duplicated: 'と%{duplicated_names}の組み合わせは一意でなくてはなりません。'
   phrases:
     actions:

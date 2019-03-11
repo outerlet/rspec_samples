@@ -9,7 +9,10 @@ class Member < ApplicationRecord
   validates :name,
     presence: true,
     length: { maximum: 30 },
-    duplication: { scope: %i(sex birthday) }
+    uniqueness: {
+      scope: %i(sex birthday),
+      attribute_names: %i(sex birthday).map { |attr| Member.human_attribute_name(attr) }.join('・')
+    }
   validates :name_kana,
     presence: true,
     length: { maximum: 30 }
