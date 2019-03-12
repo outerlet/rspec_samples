@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/shared_contexts'
+require 'support/shared_contexts2'
 
 RSpec.describe Book, type: :model do
   describe 'バリデーションの検証' do
@@ -9,119 +9,211 @@ RSpec.describe Book, type: :model do
     context :title do
       let(:attribute) { :title }
 
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :length_validation, 60
+      describe :presence do
+        let(:expected) { false }
 
-      include_context :uniqueness_validation,
-        title: ['xxxxx', 'yyyyy'],
-        author: ['aaaa', 'bbbb'],
-        format: [Book::FORMAT::POCKET, Book::FORMAT::PAPERBACK],
-        publisher: ['iiii', 'jjjj']
-
-=begin
-      # titleを含めた複数の属性で一意となるようにカスタムバリデーションを設定
-      # 先に1つデータをDBに作成しておいて、全ての属性が同じオブジェクトを検証するとinvalidとなるか確認
-      describe :duplication do
-        let(:existance) { create(:book) }
-        let(:book) { build(:book, title: title, author: author, format: format, publisher: publisher) }
-        let(:title) { existance.title }
-        let(:author) { existance.author }
-        let(:format) { existance.format }
-        let(:publisher) { existance.publisher }
-
-        context :same_all do
-          it { is_expected.to be_invalid }
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
         end
 
-        describe :different do
-          context :title do
-            let(:title) { existance.title + '2' }
-            it { is_expected.to be_valid }
-          end
-
-          context :author do
-            let(:author) { existance.author + '2' }
-            it { is_expected.to be_valid }
-          end
-
-          context :format do
-            let(:format) { Book::FORMAT.select { |f| f.value != existance.format }.sample.value }
-            it { is_expected.to be_valid }
-          end
-
-          context :publisher do
-            let(:publisher) { existance.publisher + '2' }
-            it { is_expected.to be_valid }
-          end
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
         end
       end
-=end
+
+      describe :length do
+        let(:max_length) { 60 }
+        it_behaves_like :length_example
+      end
+
+      describe :uniqueness do
+        let(:existance) { { title: 'xxxxx', author: 'aaaa', format: Book::FORMAT::POCKET, publisher: 'iiii' } }
+        let(:tester) { { title: 'yyyyy', author: 'bbbb', format: Book::FORMAT::PAPERBACK, publisher: 'jjjj' } }
+        it_behaves_like :uniqueness_example
+      end
     end
     
     # タイトル（カナ）のバリデーションを検証
     context :title_kana do
       let(:attribute) { :title_kana }
-      
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :length_validation, 60
+
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
+
+      describe :length do
+        context :max_length do
+          let(:max_length) { 60 }
+          it_behaves_like :length_example
+        end
+      end
     end
     
     # 筆者のバリデーションを検証
     context :author do
       let(:attribute) { :author }
 
-      # shared_contextを利用
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :length_validation, 30
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
+
+      describe :length do
+        context :max_length do
+          let(:max_length) { 30 }
+          it_behaves_like :length_example
+        end
+      end
     end
     
-    # フォーマットのバリデーションを検証
     context :format do
       let(:attribute) { :format }
 
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :const_enum_validation, Book::FORMAT
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
+
+      describe :enum do
+        context :enum do
+          let(:enum) { Book::FORMAT }
+          it_behaves_like :const_enum_example
+        end
+      end
     end
     
     # 価格のバリデーションを検証
     context :price do
       let(:attribute) { :price }
 
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :integer_validation, [ 99, 'aaa' ], false
-      include_context :integer_validation, 100, true
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
+
+      describe :numericality do
+        context :invalid do
+          let(:tester) { [ 99, 'aaa' ] }
+          let(:expected) { false }
+          it_behaves_like :integer_example
+        end
+
+        context :valid do
+          let(:tester) { 100 }
+          let(:expected) { true }
+          it_behaves_like :integer_example
+        end
+      end
     end
     
     # 出版社のバリデーションを検証
     context :publisher do
       let(:attribute) { :publisher }
 
-      # shared_contextを利用
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
-      include_context :length_validation, 60
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
+
+      describe :length do
+        context :max_length do
+          let(:max_length) { 60 }
+          it_behaves_like :length_example
+        end
+      end
     end
     
     # 出版年月のバリデーションを検証
     context :published do
       let(:attribute) { :published }
 
-      include_context :presence_validation, :nil, false
-      include_context :presence_validation, :empty, false
+      describe :presence do
+        let(:expected) { false }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+      end
     end
     
     # 概要のバリデーションを検証
     context :summary do
       let(:attribute) { :summary }
 
-      include_context :presence_validation, :nil, true
-      include_context :presence_validation, :empty, true
-      include_context :length_validation, 100
+      describe :presence do
+        let(:expected) { true }
+
+        context :nil do
+          let(:type) { :nil }
+          it_behaves_like :presence_example
+        end
+
+        context :empty do
+          let(:type) { :empty }
+          it_behaves_like :presence_example
+        end
+
+        describe :length do
+          context :max_length do
+            let(:max_length) { 100 }
+            it_behaves_like :length_example
+          end
+        end
+      end
     end
   end
 end

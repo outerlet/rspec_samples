@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-# let(:attribute) で宣言した属性の presence 制約を検証
-# include_context の第1引数に :nil か :empty のどちらで検証するか指定
-# 第2引数に期待する結果を true(=valid)/false(=invalid) で指定
+=begin
+  let(:attribute) で宣言した属性の presence 制約を検証
+  include_context の第1引数に :nil か :empty のどちらで検証するか指定
+  第2引数に期待する結果を true(=valid)/false(=invalid) で指定
+=end
 RSpec.shared_context :presence_validation do |type, expected|
   let(:actual) { build(factory, attribute => value) }
 
@@ -12,8 +14,10 @@ RSpec.shared_context :presence_validation do |type, expected|
   end
 end
 
-# let(:attribute) で宣言した属性の length 制約を検証
-# include_context の第1引数に、その属性が取りうる最大長を指定
+=begin
+  let(:attribute) で宣言した属性の length 制約を検証
+  include_context の第1引数に、その属性が取りうる最大長を指定
+=end
 RSpec.shared_context :length_validation do |max_length|
   let(:actual) { build(factory, attribute => value) }
 
@@ -30,9 +34,11 @@ RSpec.shared_context :length_validation do |max_length|
   end
 end
 
-# let(:attribute) で宣言した属性の numericality(only_integer) 制約を検証
-# include_context の第1引数に、その属性が取りうる値を「範囲」「配列」「単一の値」いずれかで指定
-# 第2引数には、配列か単一の値を指定した場合に期待する結果を true(=valid)/false(=invalid) で指定
+=begin
+  let(:attribute) で宣言した属性の numericality(only_integer) 制約を検証
+  include_context の第1引数に、その属性が取りうる値を「範囲」「配列」「単一の値」いずれかで指定
+  第2引数には、配列か単一の値を指定した場合に期待する結果を true(=valid)/false(=invalid) で指定
+=end
 RSpec.shared_context :integer_validation do |tester, expected|
   let(:actual) { build(factory, attribute => value) }
 
@@ -77,10 +83,12 @@ RSpec.shared_context :integer_validation do |tester, expected|
   end
 end
 
-# let(:attribute) で宣言した属性の取りうる列挙値を検証
-# const_enum gem で定義した列挙値を使用するフィールドが対象
-# https://github.com/techscore/const_enum
-# include_context の第1引数に、その属性の使用する列挙値を指定
+=begin
+  let(:attribute) で宣言した属性の取りうる列挙値を検証
+  const_enum gem で定義した列挙値を使用するフィールドが対象
+  https://github.com/techscore/const_enum
+  include_context の第1引数に、その属性の使用する列挙値を指定
+=end
 RSpec.shared_context :const_enum_validation do |enum|
   let(:actual) { build(factory, attribute => value) }
 
@@ -101,13 +109,16 @@ RSpec.shared_context :const_enum_validation do |enum|
   end
 end
 
-# レコードの重複を検証
-# include_context の第1引数 scopes には、以下のようなハッシュを与える
-# { 属性名1: [既存の値, 新規の値], 属性名2: [既存の値, 新規の値], ... }
-RSpec.shared_context :uniqueness_validation do |**scopes|
+=begin
+  レコードの重複を検証する
+  existance と tester の属性は一致させること
+  既存レコードの attribute に existance の値が設定されている状態で、以下の状況を順に検証する
+  * 新規レコードの属性が全て既存レコードと同じ … 一意性制約に違反して invalid となる
+  * 新規レコードの属性が1つずつ既存レコードの値と異なる … 一意性制約に違反せず valid となる
+=end
+RSpec.shared_context :uniqueness_validation do |existance, tester|
   let(:models) {
-    attrs = scopes.transform_values { |v| v.first }
-    models = build_list(factory, 2, attrs)
+    models = build_list(factory, 2, existance)
     models.first.save!
     models
   }
@@ -117,8 +128,8 @@ RSpec.shared_context :uniqueness_validation do |**scopes|
     it { expect(models.last).to be_invalid }
   end
 
-  # scopes で指定した属性の値が1つでも異なれば valid となることを検証
-  scopes.transform_values { |v| v.last }.each do |attr, value|
+  # tester で指定した属性の値が1つでも登録済みのレコードと異なれば valid となることを検証
+  tester.each do |attr, value|
     context "#{attr.to_s} = #{value}" do
       it {
         models.last.write_attribute(attr, value)
