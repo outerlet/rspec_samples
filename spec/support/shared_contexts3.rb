@@ -85,7 +85,7 @@ end
 
 =begin
   let(:attribute) で宣言した属性の取りうる列挙値を検証
-  const_enum gem で定義した列挙値を使用するフィールドが対象
+  const_enum gem で定義した列挙値を使用する属性が対象
   https://github.com/techscore/const_enum
   include_context の第1引数に、その属性の使用する列挙値を指定
 =end
@@ -123,7 +123,7 @@ RSpec.shared_context :uniqueness_validation do |existance, tester|
     models
   }
 
-  # 全てのフィールドが同じ場合は invalid となることを検証
+  # 全ての属性が同じ場合は invalid となることを検証
   context :duplicated do
     it { expect(models.last).to be_invalid }
   end
@@ -135,6 +135,29 @@ RSpec.shared_context :uniqueness_validation do |existance, tester|
         models.last.write_attribute(attr, value)
         expect(models.last).to be_valid
       }
+    end
+  end
+end
+
+=begin
+  アソシエーションのある属性を検証する
+  第1引数には当該属性が参照するモデルクラスを与える
+  そのモデルにある id 値をセットして全て valid となり、無い id 値をセットして invalid にあることを検証
+=end
+RSpec.shared_context :reference_validation do |ref_class|
+  let(:actual) { build(factory, attribute => model_id) }
+
+  ref_class.all.map { |m| m.id }.each do |model_id|
+    context model_id.to_s do
+      let(:model_id) { model_id }
+      it { expect(actual).to be_valid }
+    end
+  end
+
+  [ ref_class.minimum(:id) - 1, ref_class.maximum(:id) + 1 ].each do |model_id|
+    context model_id.to_s do
+      let(:model_id) { model_id }
+      it { expect(actual).to be_invalid }
     end
   end
 end

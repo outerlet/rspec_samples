@@ -107,3 +107,21 @@ RSpec.shared_context :uniqueness_example do
     end
   end
 end
+
+=begin
+  アソシエーションのある属性を検証する
+  let(:ref_class) には当該属性が参照するモデルクラスを与える
+  そのモデルにある id 値をセットして全て valid となり、無い id 値をセットして invalid にあることを検証
+=end
+RSpec.shared_examples :reference_example do
+  context :validate_reference do
+    it {
+      ref_class.all.each do |model|
+        expect(build(factory, attribute => model.id)).to be_valid
+      end
+
+      expect(build(factory, attribute => ref_class.minimum(:id) - 1)).to be_invalid
+      expect(build(factory, attribute => ref_class.maximum(:id) + 1)).to be_invalid
+    }
+  end
+end
